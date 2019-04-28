@@ -13,13 +13,47 @@ Re-emit events while mapping them to new names.
 ## Usage
 
 ```js
+var src = new EventEmitter();
+var dest = new EventEmitter();
+var events = {
+  before: 'preload:before',
+  success: 'preload:success',
+  failure: 'preload:failure',
+};
+
+var cleanup = emitMapper(src, dest, events);
+
+dest.on('preload:before', console.log);
+dest.on('preload:success', console.log);
+dest.on('preload:failure', console.log);
+
+src.emit('before', 'some value');
+src.emit('success', 1, 2, 3);
+src.emit('failure', 'moduleName', new Error('some error'));
+
+// No more events will be re-emitted after cleanup
+cleanup();
+
+src.emit('before', 'not re-emitted');
 ```
 
 ## API
 
+### `emitMapper(source, destination, eventMapping)`
+
+Takes a `source` EventEmitter, a `destination` EventEmitter, and an `eventMapping` object that maps `source` events to `destination` events. Whenever an event from the `eventMapping` object is emitted on `source`, a new event will be emitted on `destination` with the mapped named but containing all the same arguments.
+
+Returns a cleanup method to remove all handlers registered for re-emitting.
+
+## Prior art
+
+This module is heavily inspired by [re-emitter][re-emitter] but the ability to map event names to new names was needed. Also, this module supports back to node 0.10 while `re-emitter` only supports node LTS versions.
+
 ## License
 
 MIT
+
+[re-emitter]: https://github.com/feross/re-emitter
 
 [downloads-image]: http://img.shields.io/npm/dm/emit-mapper.svg
 [npm-url]: https://www.npmjs.com/package/emit-mapper
