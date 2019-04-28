@@ -1,6 +1,6 @@
 {
   "name": "emit-mapper",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Re-emit events while mapping them to new names.",
   "author": "Gulp Team <team@gulpjs.com> (https://gulpjs.com/)",
   "contributors": [
