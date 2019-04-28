@@ -1,7 +1,7 @@
 'use strict';
 
 var expect = require('expect');
-var EventEmitter = require('events');
+var EventEmitter = require('events').EventEmitter;
 
 var emitMapper = require('../');
 
